@@ -1,0 +1,17 @@
+[2014-12-10:9088 INFO]Mary had 8 Lambs, and they all where white as Sn0w.
+[2014-12-10:9090 INFO]Fill up my pattern with *(0& and a bit of &^%abc 
+[2014-12-10:9091 DEBUG]GIve me some gr8 looking cakes.
+[2014-12-10:9091 DEBUG]P: 172.21.128.3, MAC:44:aa:ea:93:44:23, INT:eth2,
+[2014-12-10:9090 INFO]Fill up my pattern with *(0& and a bit of &^%abc 
+[2014-12-10:9088 INFO]Joe had 9 Lambs, and they all where white as Sn0w.
+[2014-12-10:9092 DEBUG]Sorted by date today is 2014-12-20, and day is Saturday
+[2014-12-10:9091 DEBUG]P: 172.21.128.5, MAC:34:a3:ea:93:44:33, INT:eth2,
+
+[2014-12-10:9093 INFO] spaces   oh these spaces, how do we get there.
+[2014-12-10:9094 INFO]
+[2014-12-10:9088 INFO]Margret had 80 Lambs, and they all where white as Sn0w.
+
+[2014-12-10:9095 ERROR]IP: 172.22.198.3, MAC:44:aa:ea:9d:43:23, INT:eth0,  
+[2014-12-10:9096 ERROR]DIR:/home/localadmin/delorean/delorean/shell.py, lines: 898
+[2014-12-10:9097 INFO]END.
+
