@@ -28,8 +28,7 @@ class REX(object):
         self.rex_patternstr = None
         self.rex_pattern = None
         # Results store the list of result object.
-        # result object ('match obj', 'user defined values')
-        #self.results = []
+        # result object type REXResult
         self.matches = []
         self.res_count = 0
 
@@ -48,8 +47,8 @@ class REXResult(object):
 
 def reformat_pattern(pattern):
     '''
-    Apply the filters on user pattern to generate a new regular
-    expression pattern.
+    Apply the filters on user pattern to generate a new regular expression
+    pattern.
     A user provided variable, should start with an alphabet, can be
     alphanumeric and can have _.
     '''
@@ -91,15 +90,7 @@ def populate_resobj(rexobj, mobj, loc):
     '''
     resobj = REXResult(mobj, loc)
     rexobj.matches.append(resobj)
-
-    rex_resobj = {}
-    rex_resobj = {}
-    rex_resobj['reobj'] = mobj
-    rex_resobj['loc'] = loc
     rexobj.res_count += 1
-    for key in mobj.groupdict().keys():
-        rex_resobj[key] = mobj.groupdict()[key]
-    #rexobj.results.append(rex_resobj)
 
 
 def match_file(pattern, filename):
@@ -121,7 +112,7 @@ def match_file(pattern, filename):
     rexobj = REX(pattern, filename)
 
     rexpatstr = reformat_pattern(pattern)
-    print "rexpatstr: ", rexpatstr
+    #print "rexpatstr: ", rexpatstr
 
     rexpat = re.compile(rexpatstr)
     rexobj.rex_patternstr = rexpatstr
@@ -135,18 +126,7 @@ def match_file(pattern, filename):
     for line in data.splitlines():
         mobj = rexpat.match(line)
         if mobj:
-            print "matched: ", mobj.group(0), mobj.group(1)
             populate_resobj(rexobj, mobj, line_count)
-            #rex_resobj = {}
-            #rex_resobj['reobj'] = mobj
-            #rex_resobj['loc'] = line_count
-            #rexobj.results.append(rex_resobj)
-            rexobj.res_count += 1
-            #mydict = mobj.groupdict()
-            #print "mydict: ", mydict, mydict.keys()
-            #print "dir mydict: ", dir(mydict)
-            #for key in mydict.keys():
-            #    print "val: ", mydict[key]
 
         line_count += 1
 
@@ -157,20 +137,25 @@ def dump_rexobj_results(rexobj, options=None):
     '''
     print all the results.
     '''
+    print "-" * 60
+    print "Match count: ", rexobj.res_count
     matches = rexobj.matches
     for match in matches:
+        print "Loc:", match.loc,":: ",
         for key in match.named_groups.keys():
-            print  "%s: %s" %(key, match.named_groups[key]),
+            print "%s: %s" % \
+                (key, match.named_groups[key]),
         print ""
-        done = False
-        cnt = 0
-        while not done:
-            try:
-                print "%d: %s" % (cnt, match.reobj.group(cnt)),
-                cnt += 1
-            except IndexError:
-                print ""
-                done = True
+
+        #done = False
+        #cnt = 0
+        #while not done:
+        #    try:
+        #        print "%d: %s" % (cnt, match.reobj.group(cnt)),
+        #        cnt += 1
+        #    except IndexError:
+        #        print ""
+        #        done = True
 
 
 
