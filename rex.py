@@ -12,7 +12,7 @@ import os
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger("delorean")
+logger = logging.getLogger("rex")
 
 
 class REX(object):
@@ -29,7 +29,7 @@ class REX(object):
         self.rex_pattern = None
         # Results store the list of result object.
         # result object ('match obj', 'user defined values')
-        self.results = []
+        #self.results = []
         self.matches = []
         self.res_count = 0
 
@@ -99,7 +99,7 @@ def populate_resobj(rexobj, mobj, loc):
     rexobj.res_count += 1
     for key in mobj.groupdict().keys():
         rex_resobj[key] = mobj.groupdict()[key]
-    rexobj.results.append(rex_resobj)
+    #rexobj.results.append(rex_resobj)
 
 
 def match_file(pattern, filename):
@@ -162,14 +162,16 @@ def dump_rexobj_results(rexobj, options=None):
         for key in match.named_groups.keys():
             print  "%s: %s" %(key, match.named_groups[key]),
         print ""
-
-    results = rexobj.results
-    for result in results:
-        cnt = 0
         done = False
+        cnt = 0
         while not done:
-            print "group: ", result['reobj'].group(cnt)
-            cnt += 1
+            try:
+                print "%d: %s" % (cnt, match.reobj.group(cnt)),
+                cnt += 1
+            except IndexError:
+                print ""
+                done = True
+
 
 
 

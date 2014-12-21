@@ -56,7 +56,6 @@ class REXUT(unittest.TestCase):
         testpattern = "\[(d:<year>)-(d:<month>)-(d:<day>):(\d+) (w:<level>)\](w:<name>) had (d:<num>) Lambs.*"
         testfile = "test_data/simple.txt"
         rexobj = rex.match_file(testpattern, testfile)
-        print rexobj.results[0]['reobj'].group()
         rex.dump_rexobj_results(rexobj)
 
 
