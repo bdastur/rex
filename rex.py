@@ -32,6 +32,7 @@ class REX(object):
         self.matches = []
         self.res_count = 0
 
+
 class REXResult(object):
     '''
     REX Result class.
@@ -61,6 +62,9 @@ def reformat_pattern(pattern):
     # User pattern: (W:<name>)  --> change to (?P<name>\w)
     rex_pattern = re.sub(r'\(W:<([\w\d_]+)>\)', '(?P<\\1>\W+)', rex_pattern)
 
+    # User pattern: (any:<anyvalue> --> change to (?P<anyvalue>.*)
+    rex_pattern = re.sub(r'\(any:<([\w\d_]+)>\)', '(?P<\\1>.*)', rex_pattern)
+
     # User pattern: (ip:<ipaddr>) --> Change to (?P<ipaddr>\d+\.\d+\.\d+\.\d+)
     rex_pattern = re.sub(r'\(ip:<([\w\d_]+)>\)',
                          '(?P<\\1>\d+\.\d+\.\d+\.\d+)', rex_pattern)
@@ -71,16 +75,29 @@ def reformat_pattern(pattern):
     return rex_pattern
 
 
-def match_string(pattern, string):
+def match_string(pattern, search_string):
     '''
     Match a pattern in a string
     '''
-    rexpattern = reformat_pattern(pattern)
 
-    rexcomp = re.compile(rexpattern)
-    mobj = rexcomp.match(string)
-    if mobj:
-        print "matched: ", mobj.group(0), mobj.group('name'), mobj.group(2)
+    rexobj = REX(pattern, None)
+
+    rexpatstr = reformat_pattern(pattern)
+    #print "rexpatstr: ", rexpatstr
+
+    rexpat = re.compile(rexpatstr)
+    rexobj.rex_patternstr = rexpatstr
+    rexobj.rex_pattern = rexpat
+
+    line_count = 1
+    for line in search_string.splitlines():
+        line = line.strip()
+        mobj = rexpat.match(line)
+        if mobj:
+            populate_resobj(rexobj, mobj, line_count)
+        line_count += 1
+
+    return rexobj
 
 
 def populate_resobj(rexobj, mobj, loc):
@@ -141,7 +158,7 @@ def dump_rexobj_results(rexobj, options=None):
     print "Match count: ", rexobj.res_count
     matches = rexobj.matches
     for match in matches:
-        print "Loc:", match.loc,":: ",
+        print "Loc:", match.loc, ":: ",
         for key in match.named_groups.keys():
             print "%s: %s" % \
                 (key, match.named_groups[key]),
@@ -157,6 +174,21 @@ def dump_rexobj_results(rexobj, options=None):
         #        print ""
         #        done = True
 
+
+def get_match_value(rexobj, key, index=0):
+    '''
+    Return a matched value for the key for a specific match from the
+    results.
+    '''
+    if rexobj is None:
+        return None
+
+    try:
+        return rexobj.matches[index].named_groups[key]
+    except IndexError:
+        return None
+    except KeyError:
+        return None
 
 
 
