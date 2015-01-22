@@ -167,8 +167,6 @@ def get_dict_from_string(search_string):
         line = line.strip()
         mobj = re.match(search_pattern, line)
         if mobj:
-            print "match %s :: %s :: %s" % \
-                (mobj.group(0), mobj.group(1), mobj.group(2))
             key = mobj.group(1).lower()
             key = "_".join(key.split()[0:3])
             rexdict[key] = mobj.group(2)
