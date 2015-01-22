@@ -58,6 +58,22 @@ class REXUT(unittest.TestCase):
         rexobj = rex.match_file(testpattern, testfile)
         rex.dump_rexobj_results(rexobj)
 
+    def test_get_dict_from_string(self):
+        '''
+        Test the get_dict_from_string() API.
+        '''
+        test_string = "Chassis:  " + "\n" + \
+            "Serial Number:  FCH1278Ad" + "\n" + \
+            "Product Name:  UCS C240 M3S " + "\n" + \
+            "PID : UCS-C240-M3S" + "\n" \
+            "UUID: 8C88d92232111DK-CEDI8987D-U89" + "\n" + \
+            "Locator LED: off" + "\n"
+
+        rexdict = rex.get_dict_from_string(test_string)
+        print "dict: ", rexdict
+
+
+
 
 
 

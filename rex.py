@@ -150,6 +150,33 @@ def match_file(pattern, filename):
     return rexobj
 
 
+def get_dict_from_string(search_string):
+    '''
+    The function takes an multi-line output/string with the format
+    "name/descr   : value", and converts it to a dictionary object
+    with key value paris, where key is built from the name/desc
+    part and value as the value.
+
+    eg:  "Serial Number: FCH1724V1GT" will be translated to
+    dict['serial_number'] = "FCH1724V1GT"
+    '''
+    search_pattern = "(.*) *: *(.*)"
+
+    rexdict = {}
+    for line in search_string.splitlines():
+        line = line.strip()
+        mobj = re.match(search_pattern, line)
+        if mobj:
+            print "match %s :: %s :: %s" % \
+                (mobj.group(0), mobj.group(1), mobj.group(2))
+            key = mobj.group(1).lower()
+            key = "_".join(key.split()[0:3])
+            rexdict[key] = mobj.group(2)
+
+    return rexdict
+
+
+
 def dump_rexobj_results(rexobj, options=None):
     '''
     print all the results.
