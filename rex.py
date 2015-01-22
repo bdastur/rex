@@ -210,6 +210,9 @@ def get_match_value(rexobj, key, index=0):
     if rexobj is None:
         return None
 
+    if rexobj.res_count == 0:
+        return None
+
     try:
         return rexobj.matches[index].named_groups[key]
     except IndexError:
