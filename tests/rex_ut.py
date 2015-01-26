@@ -23,7 +23,8 @@ class REXUT(unittest.TestCase):
         self.failUnless(rexpat == matchpat)
 
         test_pattern = "(d:<number>),testst_-(w:<name>), xyz(W:<attr>),(<foo>)"
-        matchpat = "(?P<number>\d+),testst_-(?P<name>\w+), xyz(?P<attr>\W+),(?P<foo>.*)"
+        matchpat = "(?P<number>\d+),testst_-(?P<name>\w+), " \
+            "xyz(?P<attr>\W+),(?P<foo>.*)"
 
         rexpat = rex.reformat_pattern(test_pattern)
         self.failUnless(rexpat == matchpat)
@@ -42,18 +43,30 @@ class REXUT(unittest.TestCase):
         testpat = "(w:<name>) had (d:<num>) Lambs"
         rex.match_string(testpat, teststr)
 
+    def test_match_mac(self):
+        '''
+        Test matching mac address pattern.
+        '''
+        macstr = "Link encap:Ethernet  HWaddr 00:50:56:BB:1B:BE"
+        testpat = ".*HWaddr (mac:<macaddr>)"
+        rexobj = rex.match_string(testpat, macstr)
+        val = rex.get_match_value(rexobj, "macaddr", 0)
+        self.failUnless(val == "00:50:56:BB:1B:BE")
 
     def test_match_file(self):
         '''
         test match_file(pattern, filename)
         '''
         print "test match file"
-        # [2014-12-10:9095 ERROR]IP: 172.22.1983, MAC:44:aa:ea:9d:43:23, INT:eth0,
+        # [2014-12-10:9095 ERROR]IP: 172.22.1983, MAC:44:aa:ea:9d:43:23, \
+        # INT:eth0,
         # testpattern = "[(d:<year>)\-(d:<month>)\-(d:<day>) (w:<loglevel>)]" \
         #    "IP: (ip:<ipaddr>).*"
-        # [2014-12-10:9088 INFO]Mary had 8 Lambs, and they all where white as Sn0w.
+        # [2014-12-10:9088 INFO]Mary had 8 Lambs, and they \
+        # all where white as Sn0w.
 
-        testpattern = "\[(d:<year>)-(d:<month>)-(d:<day>):(\d+) (w:<level>)\](w:<name>) had (d:<num>) Lambs.*"
+        testpattern = "\[(d:<year>)-(d:<month>)-(d:<day>)" \
+            ":(\d+) (w:<level>)\](w:<name>) had (d:<num>) Lambs.*"
         testfile = "test_data/simple.txt"
         rexobj = rex.match_file(testpattern, testfile)
         rex.dump_rexobj_results(rexobj)
@@ -70,7 +83,9 @@ class REXUT(unittest.TestCase):
             "Locator LED: off" + "\n"
 
         rexdict = rex.get_dict_from_string(test_string)
-        print "dict: ", rexdict
+        self.failUnless(rexdict['serial_number'] == "FCH1278Ad")
+        self.failUnless(rexdict['product_name'] == "UCS C240 M3S")
+
 
 
 

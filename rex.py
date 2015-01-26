@@ -69,6 +69,10 @@ def reformat_pattern(pattern):
     rex_pattern = re.sub(r'\(ip:<([\w\d_]+)>\)',
                          '(?P<\\1>\d+\.\d+\.\d+\.\d+)', rex_pattern)
 
+    # User pattern: (mac:<macaddr>) --> Change to (?P<mac>\w\w:\w\w:\w\w:..)
+    rex_pattern = re.sub(r'\(mac:<([\w\d_]+)>\)',
+                         '(?P<\\1>\w\w:\w\w:\w\w:\w\w:\w\w:\w\w)', rex_pattern)
+
     # Finally if no prefix is specified take default action.
     rex_pattern = re.sub(r'\(<([\w\d_]+)>\)', '(?P<\\1>.*)', rex_pattern)
 
