@@ -86,6 +86,36 @@ class REXUT(unittest.TestCase):
         self.failUnless(rexdict['serial_number'] == "FCH1278Ad")
         self.failUnless(rexdict['product_name'] == "UCS C240 M3S")
 
+    def test_get_dictlist_from_string(self):
+        '''
+        Test the get_dictlist_from_string() API.
+        '''
+        test_string = \
+            """
+            Physical Drive Number 21:
+                Controller: SLOT-4
+                Health: Good
+                Status: Unconfigured Good
+                Manufacturer: ATA
+                Model: ST91000640NS
+                Predictive Failure Count: 0
+                Drive Firmware: CC03
+                Coerced Size: 952720 MB
+                Type: HDD
+            Physical Drive Number 22:
+                Controller: SLOT-4
+                Health: Good
+                Status: Unconfigured Good
+                Manufacturer: ATA
+                Model: ST91000640NS
+                Predictive Failure Count: 0
+                Drive Firmware: CC03
+                Coerced Size: 952720 MB
+                Type: HDD
+            """
+        dictlist = rex.get_dictlist_from_string(test_string,
+                                                "Physical Drive Number")
+        print "dictlist: ", dictlist
 
 
 

@@ -158,7 +158,7 @@ def get_dict_from_string(search_string):
     '''
     The function takes an multi-line output/string with the format
     "name/descr   : value", and converts it to a dictionary object
-    with key value paris, where key is built from the name/desc
+    with key value pairs, where key is built from the name/desc
     part and value as the value.
 
     eg:  "Serial Number: FCH1724V1GT" will be translated to
@@ -176,6 +176,32 @@ def get_dict_from_string(search_string):
             rexdict[key] = mobj.group(2)
 
     return rexdict
+
+
+def get_dictlist_from_string(search_string, split_string):
+    '''
+    The function is an extension of the get_dict_from_string() API.
+    The function takes a multi-line output/string of the format
+    "Category: xyz
+       name: foo
+       id: bar
+     Category: abc
+       name: foox
+       id: barx
+    :
+    "
+    It splits the output based on the splitstring passed as
+    argument (eg "Category"), and converts the individual
+    lines of the form "name:  value" to a dictionary object with
+    key value pairs. The key is built from the name (LV) part.
+    eg "First Name: Behzad" --> dict[first_name] = "Behzad"
+    '''
+    dictlist = []
+    for out in search_string.split(split_string):
+        tdict = get_dict_from_string(out)
+        dictlist.append(tdict)
+
+    return dictlist
 
 
 
