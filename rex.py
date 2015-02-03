@@ -9,10 +9,6 @@ but enhances it by adding more functionality and ease of use.
 
 import re
 import os
-import logging
-
-logging.basicConfig(level=logging.DEBUG)
-logger = logging.getLogger("rex")
 
 
 class REX(object):
@@ -123,11 +119,9 @@ def match_file(pattern, filename):
     # Validate user data.
 
     if pattern is None:
-        logger.error("Invalid pattern")
         return None
 
     if os.stat(filename).st_size == 0:
-        logger.error("Invalid file")
         return None
 
     rexobj = REX(pattern, filename)
