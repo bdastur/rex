@@ -41,7 +41,6 @@ class REXResult(object):
         self.loc = loc
         self.named_groups = reobj.groupdict()
 
-
 def reformat_pattern(pattern):
     '''
     Apply the filters on user pattern to generate a new regular expression
@@ -74,7 +73,6 @@ def reformat_pattern(pattern):
 
     return rex_pattern
 
-
 def match_string(pattern, search_string):
     '''
     Match a pattern in a string
@@ -98,7 +96,6 @@ def match_string(pattern, search_string):
         line_count += 1
 
     return rexobj
-
 
 def populate_resobj(rexobj, mobj, loc):
     '''
@@ -158,15 +155,25 @@ def get_dict_from_string(search_string):
     eg:  "Serial Number: FCH1724V1GT" will be translated to
     dict['serial_number'] = "FCH1724V1GT"
     '''
-    search_pattern = "(.*) *: *(.*)"
+    mac_search_pattern = r"(.*) *: ([\w|\d]+.*)"
+    search_pattern = r"(.*) *: *(.*)"
 
     rexdict = {}
     for line in search_string.splitlines():
         line = line.strip()
+        mobj = re.match(mac_search_pattern, line)
+        if mobj:
+            key = mobj.group(1).lower()
+            key = "_".join(key.split()[0:3])
+            key = key.strip()
+            rexdict[key] = mobj.group(2)
+            continue
+
         mobj = re.match(search_pattern, line)
         if mobj:
             key = mobj.group(1).lower()
             key = "_".join(key.split()[0:3])
+            key = key.strip()
             rexdict[key] = mobj.group(2)
 
     return rexdict
@@ -197,8 +204,6 @@ def get_dictlist_from_string(search_string, split_string):
 
     return dictlist
 
-
-
 def dump_rexobj_results(rexobj, options=None):
     '''
     print all the results.
@@ -222,7 +227,6 @@ def dump_rexobj_results(rexobj, options=None):
         #    except IndexError:
         #        print ""
         #        done = True
-
 
 def get_match_value(rexobj, key, index=0):
     '''
