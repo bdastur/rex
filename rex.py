@@ -199,7 +199,7 @@ def get_dictlist_from_string(search_string, split_string):
     '''
     dictlist = []
     for out in search_string.split(split_string):
-        tdict = get_dict_from_string(out)
+        tdict = get_dict_from_string(split_string + out)
         dictlist.append(tdict)
 
     return dictlist
