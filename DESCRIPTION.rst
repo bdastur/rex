@@ -1,5 +1,4 @@
-rex
-===
+REX:
 
 A general purpose string and expression matching utility built as a 
 wrapper on python re module to provide additional useful functionality

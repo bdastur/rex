@@ -1,15 +1,31 @@
-'''
-REX: A pattern matching utility.
-It is a wrapper on top of the "re" regular expression module,
-but enhances it by adding more functionality and ease of use.
-'''
-
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+'''
+Copyright 2015 Behzad Dastur
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+'''
+
+'''
+REX: A general purpose string and pattern matching utility
+built as a wrapper on python re to provide additional functionalit
+and ease of use. For more details check the README.md file.
+'''
 
 import re
 import os
 
+__version__ = "0.0.1"
 
 class REX(object):
     '''
@@ -213,15 +229,15 @@ def dump_rexobj_results(rexobj, options=None):
     '''
     print all the results.
     '''
-    print "-" * 60
-    print "Match count: ", rexobj.res_count
+    print("-" * 60)
+    print("Match count: ", rexobj.res_count)
     matches = rexobj.matches
     for match in matches:
-        print "Loc:", match.loc, ":: ",
+        print("Loc:", match.loc, ":: ")
         for key in match.named_groups.keys():
-            print "%s: %s" % \
-                (key, match.named_groups[key]),
-        print ""
+            print("%s: %s" %
+                  (key, match.named_groups[key]))
+        print("")
 
         #done = False
         #cnt = 0
