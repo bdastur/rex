@@ -27,6 +27,7 @@ import os
 
 __version__ = "0.0.1"
 
+
 class REX(object):
     '''
     REX: Class instance.
@@ -79,7 +80,8 @@ def reformat_pattern(pattern):
 
     # User pattern: (ip:<ipaddr>) --> Change to (?P<ipaddr>\d+\.\d+\.\d+\.\d+)
     rex_pattern = re.sub(r'\(ip:<([\w\d_]+)>\)',
-                         '(?P<\\1>\d+\.\d+\.\d+\.\d+)', rex_pattern)
+                         '(?P<\\1>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})',
+                         rex_pattern)
 
     # User pattern: (mac:<macaddr>) --> Change to (?P<mac>\w\w:\w\w:\w\w:..)
     rex_pattern = re.sub(r'\(mac:<([\w\d_]+)>\)',
