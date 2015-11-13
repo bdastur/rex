@@ -102,6 +102,28 @@ class REXUT(unittest.TestCase):
         if mobj:
             print "Matched: ", mobj.group(0)
 
+    def test_match_ts1(self):
+        '''
+        Test the timestamp match functionality
+        '''
+        teststr = "2015-11-13 06:38:04.571 23441 INFO nova.openstack.common.service [-] Child 28349 killed by signal 9"
+        pattern = ".*(ts1:<timestamp>).*"
+
+        rexpat = rex.reformat_pattern(pattern)
+        print "REXPAT: ", rexpat
+
+        mobj = re.match(rexpat, teststr)
+        if mobj:
+            print "Matched: ", mobj.group(0)
+            print "year: ", mobj.group(1)
+            print "year: ", mobj.group(2)
+            print "Month: ", mobj.group(3)
+            print "date: ", mobj.group(4)
+            print "hour: ", mobj.group(5)
+            print "min: ", mobj.group(6)
+            print "sec: ", mobj.group(7)
+            print "msec: ", mobj.group(8)
+
     def test_get_dict_from_string(self):
         '''
         Test the get_dict_from_string() API.

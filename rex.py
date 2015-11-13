@@ -19,8 +19,7 @@ limitations under the License.
 '''
 REX: A general purpose string and pattern matching utility
 built as a wrapper on python re to provide additional functionalit
-and ease of use. For more details check the README.md file.
-'''
+and ease of use. For more details check the README.md file.'''
 
 import re
 import os
@@ -86,6 +85,14 @@ def reformat_pattern(pattern):
     # User pattern: (mac:<macaddr>) --> Change to (?P<mac>\w\w:\w\w:\w\w:..)
     rex_pattern = re.sub(r'\(mac:<([\w\d_]+)>\)',
                          '(?P<\\1>\w\w:\w\w:\w\w:\w\w:\w\w:\w\w)', rex_pattern)
+
+    # User pattern: (ts1:<timestamp>) -->
+    # Change to (?P<timestamp>\d+-\d+\d+ \d+:\d+:\d+\.\d+
+    # Example: 2015-11-13 06:38:04.571
+    rex_pattern = re.sub(
+        r'\(ts1:<([\w\d_]+)>\)',
+        '(?P<\\1>(\d{4})-(\d{1,2})-(\d{1,2}) (\d+):(\d+):(\d+)\.(\d+))',
+        rex_pattern)
 
     # Finally if no prefix is specified take default action.
     rex_pattern = re.sub(r'\(<([\w\d_]+)>\)', '(?P<\\1>.*)', rex_pattern)
