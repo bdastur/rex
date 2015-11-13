@@ -115,7 +115,6 @@ class REXUT(unittest.TestCase):
         mobj = re.match(rexpat, teststr)
         if mobj:
             print "Matched: ", mobj.group(0)
-            print "year: ", mobj.group(1)
             print "year: ", mobj.group(2)
             print "Month: ", mobj.group(3)
             print "date: ", mobj.group(4)
@@ -123,6 +122,24 @@ class REXUT(unittest.TestCase):
             print "min: ", mobj.group(6)
             print "sec: ", mobj.group(7)
             print "msec: ", mobj.group(8)
+
+    def test_match_ts2(self):
+        '''
+        Test the timestamp match functionality.
+        '''
+        teststr = "2015-11-13 Fri 12:47:01:041.992 PST  gngsvm001d [Thread 140217231050496, Pid 41480]"
+        pattern = ".*(ts2:<timestamp>)"
+
+        rexpat = rex.reformat_pattern(pattern)
+        print "REXPAT: ", rexpat
+
+        mobj = re.match(rexpat, teststr)
+        if mobj:
+            print "Matched: ", mobj.group(1)
+            print "year: ", mobj.group(2)
+            print "month: ", mobj.group(3)
+
+
 
     def test_get_dict_from_string(self):
         '''

@@ -87,11 +87,20 @@ def reformat_pattern(pattern):
                          '(?P<\\1>\w\w:\w\w:\w\w:\w\w:\w\w:\w\w)', rex_pattern)
 
     # User pattern: (ts1:<timestamp>) -->
-    # Change to (?P<timestamp>\d+-\d+\d+ \d+:\d+:\d+\.\d+
+    # Change to (?P<timestamp>\d+-\d+\d+ \d+:\d+:\d+\.\d+)
     # Example: 2015-11-13 06:38:04.571
     rex_pattern = re.sub(
         r'\(ts1:<([\w\d_]+)>\)',
         '(?P<\\1>(\d{4})-(\d{1,2})-(\d{1,2}) (\d+):(\d+):(\d+)\.(\d+))',
+        rex_pattern)
+
+    # User pattern: (ts2:<timestamp>) -->
+    # converted to (?P<timestamp>
+    # Example: 2015-11-13 Fri 13:14:51:907.395 PST
+    # Example: Thu Aug 20 14:18:34 2015
+    rex_pattern = re.sub(
+        r'\(ts2:<([\w\d_]+)>\)',
+        '(?P<\\1>(\d{4})-(\d{1,2})-(\d{1,2}) (\w{3}) (\d+):(\d+):(\d+):(\d+).(\d+))',
         rex_pattern)
 
     # Finally if no prefix is specified take default action.
