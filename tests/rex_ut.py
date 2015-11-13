@@ -6,6 +6,7 @@ import unittest
 import sys
 sys.path.append("../")
 import rex
+import re
 
 
 class REXUT(unittest.TestCase):
@@ -70,6 +71,36 @@ class REXUT(unittest.TestCase):
         testfile = "test_data/simple.txt"
         rexobj = rex.match_file(testpattern, testfile)
         rex.dump_rexobj_results(rexobj)
+
+    def test_match_ipaddr(self):
+        '''
+        Match ipaddr pattern
+        '''
+        teststring = "13 06:25:06 m001d haproxy[37217]: 10.163.41.1:55238 xy"
+        pattern = ".* (ip:<ipaddr>):(d:<port>).*"
+
+        rexpat = rex.reformat_pattern(pattern)
+        print "REXPAT: ", rexpat
+
+        mobj = re.match(rexpat, teststring)
+        if mobj:
+            print "Matched: ", mobj.group(0)
+            print "ipaddr: ", mobj.group('ipaddr')
+            print "port: ", mobj.group('port')
+
+    def test_match_ipaddr_invalid(self):
+        '''
+        Match: invalid ipaddr pattern
+        '''
+        teststring = "13 06:25:06 m001d haproxy[37217]: 310.41.1.4344:43238 xy"
+        pattern = ".* (ip:<ipaddr>):(d:<port>).*"
+
+        rexpat = rex.reformat_pattern(pattern)
+        print "REXPAT: ", rexpat
+
+        mobj = re.match(rexpat, teststring)
+        if mobj:
+            print "Matched: ", mobj.group(0)
 
     def test_get_dict_from_string(self):
         '''
