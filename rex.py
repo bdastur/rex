@@ -86,21 +86,97 @@ def reformat_pattern(pattern):
     rex_pattern = re.sub(r'\(mac:<([\w\d_]+)>\)',
                          '(?P<\\1>\w\w:\w\w:\w\w:\w\w:\w\w:\w\w)', rex_pattern)
 
-    # User pattern: (ts1:<timestamp>) -->
-    # Change to (?P<timestamp>\d+-\d+\d+ \d+:\d+:\d+\.\d+)
+    ######################################
+    # Timestamp patterns.
+    # User pattern: (ts[n]:<timestamp>) -->
+    # Converted to: The below options.
+    ######################################
+
+    # User pattern: (ts1:<timestamp>)
+    # Keystone, nova, libvirt, cinder
     # Example: 2015-11-13 06:38:04.571
     rex_pattern = re.sub(
         r'\(ts1:<([\w\d_]+)>\)',
         '(?P<\\1>(\d{4})-(\d{1,2})-(\d{1,2}) (\d+):(\d+):(\d+)\.(\d+))',
         rex_pattern)
 
-    # User pattern: (ts2:<timestamp>) -->
-    # converted to (?P<timestamp>
+    # User pattern: (ts2:<timestamp>)
+    # contrail
     # Example: 2015-11-13 Fri 13:14:51:907.395 PST
-    # Example: Thu Aug 20 14:18:34 2015
     rex_pattern = re.sub(
         r'\(ts2:<([\w\d_]+)>\)',
-        '(?P<\\1>(\d{4})-(\d{1,2})-(\d{1,2}) (\w{3}) (\d+):(\d+):(\d+):(\d+).(\d+))',
+        '(?P<\\1>(\d{4})-(\d{1,2})-(\d{1,2}) (\w{3}) (\d+):(\d+):(\d+):(\d+)\.(\d+))',
+        rex_pattern)
+
+    # User pattern: (ts3:<timestamp>)
+    # apache2
+    # Example: Thu Aug 20 14:18:34 2015
+    rex_pattern = re.sub(
+        r'\(ts3:<([\w\d_]+)>\)',
+        '(?P<\\1>(\w{3}) (\w{3}) (\d{1,2}) (\d+):(\d+):(\d+) (\d{4}))',
+        rex_pattern)
+
+    # User pattern: (ts4:<timestamp>)
+    # Example: 02/Nov/2015:09:03:19 -0800
+    rex_pattern = re.sub(
+        r'\(ts4:<([\w\d_]+)>\)',
+        '(?P<\\1>(\d+)\/(\w{3})\/(\d{4}):(\d+):(\d+):(\d+) -(\d+))',
+        rex_pattern)
+
+    # User pattern: (ts5:<timestamp>)
+    # ceph logs.
+    # Example: 2015-11-13 06:25:29.436844
+    rex_pattern = re.sub(
+        r'\(ts5:<([\w\d_]+)>\)',
+        '(?P<\\1>(\d{4})-(\d{1,2})-(\d{1,2}) (\d+):(\d+):(\d+)\.(\d+))',
+        rex_pattern)
+
+    # User pattern: (ts6:<timestamp>)
+    # cassandra
+    # Example:2015-10-23 12:38:15
+    rex_pattern = re.sub(
+        r'\(ts6:<([\w\d_]+)>\)',
+        '(?P<\\1>(\d{4})-(\d{1,2})-(\d{1,2}) (\d+):(\d+):(\d+))',
+        rex_pattern)
+
+    # User pattern: (ts7:<timestamp>)
+    # haproxy
+    # Example: 13/Nov/2015:06:25:05.465
+    rex_pattern = re.sub(
+        r'\(ts7:<([\w\d_]+)>\)',
+        '(?P<\\1>(\d+)\/(\w{3})\/(\d{4}):(\d+):(\d+):(\d+)\.(\d+))',
+        rex_pattern)
+
+    # User pattern: (ts8:<timestamp>)
+    # mysql
+    # Example: 12:03:28
+    rex_pattern = re.sub(
+        r'\(ts8:<([\w\d_]+)>\)',
+        '(?P<\\1>(\d+):(\d+):(\d+))',
+        rex_pattern)
+
+    # User pattern: (ts9:<timestamp>)
+    # reddis
+    # Example: 08 Nov 06:26:05.084
+    rex_pattern = re.sub(
+        r'\(ts9:<([\w\d_]+)>\)',
+        '(?P<\\1>(\d+) (\w{3}) (\d+):(\d+):(\d+)\.(\d+))',
+        rex_pattern)
+
+    # user pattern: (ts10:<timestamp>)
+    # supervisord, zookeeper
+    # Example: 2015-06-30 10:59:18,133
+    rex_pattern = re.sub(
+        r'\(ts10:<([\w\d_]+)>\)',
+        '(?P<\\1>(\d{4})-(\d{1,2})-(\d{1,2}) (\d+):(\d+):(\d+),(\d+))',
+        rex_pattern)
+
+    # User pattern: (ts11:<timestamp>)
+    # dmesg
+    # Example: 11148214.574583
+    rex_pattern = re.sub(
+        r'\(ts11:<([\w\d_]+)>\)',
+        '(?P<\\1>(\d+)\.(\d+))',
         rex_pattern)
 
     # Finally if no prefix is specified take default action.

@@ -2,7 +2,7 @@
 # Allow constant names to be lower case
 const-rgx=[a-zA-Z_][a-zA-Z0-9_]{2,30}$
 module-rgx=[a-zA-Z_][a-zA-Z0-9_]{2,30}$
-max-line-length=85
+max-line-length=88
 max-args=10
 max-branches=20
 max-locals=20
