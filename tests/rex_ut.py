@@ -284,6 +284,18 @@ class REXUT(unittest.TestCase):
                                                      "Physical Drive Number")
         print pprint.PrettyPrinter(indent=2).pprint(parsed_data)
 
+    def test_parser_tabular_string(self):
+        '''
+        Test an output in tabular format.
+        '''
+        fhandle = open("test_data/tabular1_output.txt", "r")
+        data = fhandle.read()
+        fields = ["Filesystem", "1k-blocks", "used",
+                  "Available", "usage%", "Mounted_on"]
+        parsed_data = rex.parse_tabular_string(data, fields)
+        print pprint.PrettyPrinter(indent=2).pprint(parsed_data)
+
+
 
 
 
