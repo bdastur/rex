@@ -1,0 +1,19 @@
+        Physical Drive Number 21:                                            
+              Controller: SLOT-4                                               
+              Health: Good                                                     
+              Status: Unconfigured Good                                        
+              Manufacturer: ATA                                                
+              Model: ST91000640NS                                              
+              Predictive Failure Count: 0                                      
+              Drive Firmware: CC03                                             
+              Coerced Size: 952720 MB                                          
+              Type: HDD                                                        
+          Physical Drive Number 22:                                            
+              Controller: SLOT-4                                               
+              Health: Good                                                     
+              Status: Unconfigured Good                                        
+              Manufacturer: ATA                                                
+              Model: ST91000640NS                                              
+              Predictive Failure Count: 0                                      
+              Drive Firmware: CC03                                             
+              Coerced Size: 952720 MB                                
