@@ -7,6 +7,7 @@ import sys
 sys.path.append("../")
 import rex
 import re
+import pprint
 
 
 class REXUT(unittest.TestCase):
@@ -76,7 +77,7 @@ class REXUT(unittest.TestCase):
         '''
         Match ipaddr pattern
         '''
-        teststring = "13 06:25:06 m001d haproxy[37217]: 10.163.41.1:55238 xy"
+        teststring = "13 06:25:06 m001d haproxy[37217]: 10.163.41.1:55238 "
         pattern = ".* (ip:<ipaddr>):(d:<port>).*"
 
         rexpat = rex.reformat_pattern(pattern)
@@ -211,11 +212,38 @@ class REXUT(unittest.TestCase):
             "UUID: 8C88d92232111DK-CEDI8987D-U89" + "\n" + \
             "Locator LED: off" + "\n"
 
-        rexdict = rex.get_dict_from_string(test_string)
+        rexdict = rex.parse_lrvalue_string(test_string)
         self.failUnless(rexdict['serial_number'] == "FCH1278Ad")
         self.failUnless(rexdict['product_name'] == "UCS C240 M3S")
 
-    def test_get_dictlist_from_string(self):
+    def test_parse_lrval_string(self):
+        '''
+        Test the API to parse a LR value string.
+        '''
+        fhandle = open("test_data/lrvalue_output.txt", "r")
+        data = fhandle.read()
+        parsed_data = rex.parse_lrvalue_string(data)
+        print "Parsed data: ", parsed_data
+
+    def test_parse_lrval2_string(self):
+        '''
+        Test the API to parse a LR value string.
+        '''
+        fhandle = open("test_data/lrvalue2_output.txt", "r")
+        data = fhandle.read()
+        parsed_data = rex.parse_lrvalue_string(data, delimiter=":")
+        print "Parsed data: ", parsed_data
+
+    def test_parse_lrval3_string(self):
+        '''
+        Test the API to parse a LR value string.
+        '''
+        fhandle = open("test_data/lrvalue3_output.txt", "r")
+        data = fhandle.read()
+        parsed_data = rex.parse_lrvalue_string(data, delimiter="=")
+        print "Parsed data: ", parsed_data
+
+    def test_parse_multi_lrvalue_string(self):
         '''
         Test the get_dictlist_from_string() API.
         '''
@@ -242,9 +270,19 @@ class REXUT(unittest.TestCase):
                 Coerced Size: 952720 MB
                 Type: HDD
             """
-        dictlist = rex.get_dictlist_from_string(test_string,
-                                                "Physical Drive Number")
-        print("dictlist: ", dictlist)
+        dictlist = rex.parse_multi_lrvalue_string(test_string,
+                                                  "Physical Drive Number")
+        print pprint.PrettyPrinter(indent=4).pprint(dictlist)
+
+    def test_parse_mlrvalue_string(self):
+        '''
+        Test the parse_multi_lrvalue_string API
+        '''
+        fhandle = open("test_data/mlrvalue_output.txt", "r")
+        data = fhandle.read()
+        parsed_data = rex.parse_multi_lrvalue_string(data,
+                                                     "Physical Drive Number")
+        print pprint.PrettyPrinter(indent=2).pprint(parsed_data)
 
 
 

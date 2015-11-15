@@ -1,0 +1,6 @@
+chassis: UCS43
+Serial no: USC788dc
+Firmware: 12.01(99)
+PID: UCS4343
+UUID: URY888dR7R7R8-090-99
+Description: Ucs M3 Series Chassis

@@ -258,7 +258,7 @@ def match_file(pattern, filename):
     return rexobj
 
 
-def get_dict_from_string(search_string,
+def parse_lrvalue_string(search_string,
                          delimiter=":"):
     '''
     The function takes a multi-line output/string with the format
@@ -293,9 +293,9 @@ def get_dict_from_string(search_string,
     return rexdict
 
 
-def get_dictlist_from_string(search_string, split_string):
+def parse_multi_lrvalue_string(search_string, split_string):
     '''
-    The function is an extension of the get_dict_from_string() API.
+    The function is an extension of the parse_lrvalue_string() API.
     The function takes a multi-line output/string of the format
     "Category: xyz
        name: foo
@@ -313,7 +313,7 @@ def get_dictlist_from_string(search_string, split_string):
     '''
     dictlist = []
     for out in search_string.split(split_string):
-        tdict = get_dict_from_string(split_string + out)
+        tdict = parse_lrvalue_string(split_string + out)
         dictlist.append(tdict)
 
     return dictlist
