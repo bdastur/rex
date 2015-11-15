@@ -319,6 +319,31 @@ def parse_multi_lrvalue_string(search_string, split_string):
     return dictlist
 
 
+def parse_tabular_string(search_string, header_keys):
+    '''
+    Given a string in a tabular format,
+    parse the string and save it in a dictionary.
+    '''
+    first_line = True
+    parsed_results = []
+    for line in search_string.splitlines():
+        if first_line:
+            first_line = False
+        else:
+            result = {}
+            row = line.split()
+            if len(row) != len(header_keys):
+                print "Incorrect fields len"
+                continue
+            key_count = 0
+            for column in row:
+                result[header_keys[key_count]] = column
+                key_count += 1
+            parsed_results.append(result)
+
+    return parsed_results
+
+
 def dump_rexobj_results(rexobj, options=None):
     '''
     print all the results.
