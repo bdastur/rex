@@ -166,6 +166,46 @@ Some of the common patterns which can abstract a lot of pain in writing regular 
 are below:
 
 1. IP Address:
+Here is an example of a log from haproxy:
+```
+Nov 16 16:35:06 testhost1 haproxy[37217]: 192.16.41.8:45133 [16/Nov/2015:16:32:04.152] mysql mysql/mysql1 1/0/182236 12736 -- 647/261/261/261/0 0/0
+Nov 16 16:35:06 testhost1 haproxy[37217]: 192.16.41.8:45100 [16/Nov/2015:16:32:03.525] mysql mysql/mysql1 1/0/182932 13077 -- 647/261/261/261/0 0/0
+Nov 16 16:35:06 testhost1 haproxy[37217]: 192.16.41.8:45131 [16/Nov/2015:16:32:04.105] mysql mysql/mysql1 1/0/182483 12592 -- 647/261/261/261/0 0/0
+Nov 16 16:35:07 testhost1 haproxy[37217]: 192.16.41.8:45182 [16/Nov/2015:16:32:05.396] mysql mysql/mysql1 1/0/182246 8352 -- 647/261/261/261/0 0/0
+Nov 16 16:35:07 testhost1 haproxy[37217]: 192.16.41.4:55572 [16/Nov/2015:16:32:07.711] mysql mysql/mysql1 1/0/180119 16915 -- 647/261/261/261/0 0/0
+
+```
+
+Consider we want to parse the log and get all the ip addresses and ports. Here is how we can do that
+using the rex reformat pattern API.
+
+First we define our search pattern:
+```
+# Get the ipaddress and port no from the output.                         
+pattern = ".* (ip:<ipaddr>):(d:<port>).*"
+```
+
+Invoke the rex "reformat_pattern() API.
+```                                              
+rexpat = rex.reformat_pattern(pattern)                                   
+```
+
+Now we can use this as a pattern to search. In this case the re.finditer to iterate
+through all the matches:
+```                                                                          
+for mobj in re.finditer(rexpat, data):                                   
+    print "IP ADDR: %s, PORT: %s" % \                                    
+        (mobj.group(1), mobj.group(2))    
+```
+
+This returns the output:
+```
+IP ADDR: 192.16.41.8, PORT: 45133
+IP ADDR: 192.16.41.8, PORT: 45100
+IP ADDR: 192.16.41.8, PORT: 45131
+IP ADDR: 192.16.41.8, PORT: 45182
+IP ADDR: 192.16.41.4, PORT: 55572
+```
 
 2. MAC Addresses:
 

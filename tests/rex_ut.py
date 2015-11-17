@@ -295,6 +295,25 @@ class REXUT(unittest.TestCase):
         parsed_data = rex.parse_tabular_string(data, fields)
         print pprint.PrettyPrinter(indent=2).pprint(parsed_data)
 
+    def test_ipaddr_parse(self):
+        '''
+        Test parsing ip addr.
+        '''
+        fhandle = open("test_data/haproxy_output.txt", "r")
+        data = fhandle.read()
+
+        # Get the ipaddress and port no from the output.
+        pattern = ".* (ip:<ipaddr>):(d:<port>).*"
+
+        rexpat = rex.reformat_pattern(pattern)
+        print "REXPAT: ", rexpat
+
+        for mobj in re.finditer(rexpat, data):
+            print "IP ADDR: %s, PORT: %s" % \
+                (mobj.group(1), mobj.group(2))
+
+
+
 
 
 
