@@ -1,12 +1,12 @@
+[TOC]
 
 rex
-----------
+===
 A simple python module which serves as an abstraction to the python
 regular expression (re) module in some use cases.
 
 ------
-Introduction:
--------------
+# Introduction:
 
 The rex module was born out of necessity. I found myself writing code to parse a lot of command line output for some switches which did not have a good API interface and also in some cases where CLI was the best option to get the data I needed.
 
@@ -14,9 +14,10 @@ In a lot of cases the output format was very similar where I could generalize an
 
 ------
 
+# Functionality:
 The module provides the following main abstractions:
 
-**1. Parsing a LR Value String:**
+## **1. Parsing a LR Value String:**
 Consider the output of a CLI "show chassis" below from a switch. 
 ```
   chassis : UCS43
@@ -39,7 +40,7 @@ The LRValue parser will parse this output and return a dictionary:
  }
 ```
 
-**2. Parsing multiple LR Value strings.**
+## **2. Parsing multiple LR Value strings.**
 A similar use case is where you have multiple  blocks of LRValue paris.
 Consider the example of a CLI to display adapters.
 ```
@@ -89,7 +90,7 @@ return a list of dictionary object
     'status': 'Unconfigured Good'}]
 ```
 
-**3. Parsing a tabular format string.**
+## **3. Parsing a tabular format string.**
 Very common output format is a tabular format with fields seperated by 
 delimiters (spaces, |, etc).
 
@@ -161,12 +162,12 @@ of dictionary objects as below:
 ```
 
 
-**4. Common (re) Pattern Abstractions**
+## **4. Common (re) Pattern Abstractions**
 Another use case where parsing strings is needed is in logs and other program output. 
 Some of the common patterns which can abstract a lot of pain in writing regular expression strings
 are below:
 
-1. IP Address:
+### 1. IP Address:
 Here is an example of a log from haproxy:
 ```
 Nov 16 16:35:06 testhost1 haproxy[37217]: 192.16.41.8:45133 [16/Nov/2015:16:32:04.152] mysql mysql/mysql1 1/0/182236 12736 -- 647/261/261/261/0 0/0
@@ -208,7 +209,7 @@ IP ADDR: 192.16.41.8, PORT: 45182
 IP ADDR: 192.16.41.4, PORT: 55572
 ```
 
-2. MAC Addresses:
+### 2. MAC Addresses:
 
-3. Timestamps:
+### 3. Timestamps:
 
