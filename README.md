@@ -32,6 +32,7 @@ The LRValue parser will parse this output and return a dictionary:
 { 
   'firmware': '12.01(99)', 
   'description': 'Ucs M3 Series Chassis', 
+  'serial_no': 'USC788dc',
   'pid': 'UCS4343', 
   'chassis': 'UCS43', 
   'uuid': 'URY888dR7R7R8-090-99'
