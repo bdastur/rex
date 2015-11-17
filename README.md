@@ -160,7 +160,8 @@ of dictionary objects as below:
 
 ```
 
-**3. Common (re) Pattern Abstractions**
+
+**4. Common (re) Pattern Abstractions**
 Another use case where parsing strings is needed is in logs and other program output. 
 Some of the common patterns which can abstract a lot of pain in writing regular expression strings
 are below:
