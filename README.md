@@ -1,10 +1,10 @@
-##### [Introduction] (https://github.com/bdastur/rex/blob/master/README.md#introduction)
-##### [Getting Started] (https://github.com/bdastur/rex/blob/master/README.md#getting-started)
-##### [Features] (https://github.com/bdastur/rex/blob/master/README.md#features)
-###### [LR Value Parsing] (https://github.com/bdastur/rex/blob/master/README.md#lrvalue)
-###### [Multiple LR Value Parsing] (https://github.com/bdastur/rex/blob/master/README.md#mlrvalue)
-###### [Table formatParsing] (https://github.com/bdastur/rex/blob/master/README.md#tabular)
-###### [RE Pattern Abstractions] (https://github.com/bdastur/rex/blob/master/README.md#pabstractions)
++ [Introduction] (https://github.com/bdastur/rex/blob/master/README.md#introduction)
++ [Getting Started] (https://github.com/bdastur/rex/blob/master/README.md#getting-started)
++ [Features] (https://github.com/bdastur/rex/blob/master/README.md#features)
+  + [LR Value Parsing] (https://github.com/bdastur/rex/blob/master/README.md#lrvalue)
+  + [Multiple LR Value Parsing] (https://github.com/bdastur/rex/blob/master/README.md#mlrvalue)
+  + [Table formatParsing] (https://github.com/bdastur/rex/blob/master/README.md#tabular)
+  + [RE Pattern Abstractions] (https://github.com/bdastur/rex/blob/master/README.md#pabstractions)
 
 
 rex
