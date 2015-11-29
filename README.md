@@ -1,4 +1,5 @@
-[TOC]
+[Introduction] (https://github.com/bdastur/rex/blob/master/README.md#Introduction)
+[Features] (https://github.com/bdastur/rex/blob/master/README.md#Functionality)
 
 rex
 ===
