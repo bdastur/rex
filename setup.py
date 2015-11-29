@@ -1,11 +1,11 @@
 from setuptools import setup
 
-with open('README.md', 'r', encoding='utf-8') as fhandle:
+with open('README.md') as fhandle:
     long_description = fhandle.read()
 
 
 setup(
-    name='rex',
+    name='rexutil',
     version='1.0.1',
     description='A python module for regular expression manipulations.',
     long_description=long_description,
@@ -13,7 +13,7 @@ setup(
     author="Behzad Dastur",
     author_email="bdastur@gmail.com",
     license='Apache Software License',
-    classifier = [
+    classifier=[
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
