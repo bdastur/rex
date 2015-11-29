@@ -1,5 +1,5 @@
-[Introduction] (https://github.com/bdastur/rex/blob/master/README.md#Introduction)
-[Features] (https://github.com/bdastur/rex/blob/master/README.md#Functionality)
+#### [Introduction] (https://github.com/bdastur/rex/blob/master/README.md#introduction)
+#### [Features] (https://github.com/bdastur/rex/blob/master/README.md#features)
 
 rex
 ===
@@ -7,7 +7,7 @@ A simple python module which serves as an abstraction to the python
 regular expression (re) module in some use cases.
 
 ------
-# Introduction:
+# Introduction:<a name="introduction"></a>
 
 The rex module was born out of necessity. I found myself writing code to parse a lot of command line output for some switches which did not have a good API interface and also in some cases where CLI was the best option to get the data I needed.
 
@@ -15,7 +15,7 @@ In a lot of cases the output format was very similar where I could generalize an
 
 ------
 
-# Functionality:
+# Features:<a name="features"></a>
 The module provides the following main abstractions:
 
 ## **1. Parsing a LR Value String:**
