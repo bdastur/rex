@@ -1,5 +1,11 @@
-#### [Introduction] (https://github.com/bdastur/rex/blob/master/README.md#introduction)
-#### [Features] (https://github.com/bdastur/rex/blob/master/README.md#features)
+##### [Introduction] (https://github.com/bdastur/rex/blob/master/README.md#introduction)
+##### [Getting Started] (https://github.com/bdastur/rex/blob/master/README.md#getting-started)
+##### [Features] (https://github.com/bdastur/rex/blob/master/README.md#features)
+###### [LR Value Parsing] (https://github.com/bdastur/rex/blob/master/README.md#lrvalue)
+###### [Multiple LR Value Parsing] (https://github.com/bdastur/rex/blob/master/README.md#mlrvalue)
+###### [Table formatParsing] (https://github.com/bdastur/rex/blob/master/README.md#tabular)
+###### [RE Pattern Abstractions] (https://github.com/bdastur/rex/blob/master/README.md#pabstractions)
+
 
 rex
 ===
@@ -14,11 +20,29 @@ The rex module was born out of necessity. I found myself writing code to parse a
 In a lot of cases the output format was very similar where I could generalize and try to come up with a common API that can be used for any such CLI. I could not find anything that would fit the bill, and rex was born.
 
 ------
+# Getting Started:<a name="getting-started"></a>
 
+
+## Installing using pip:
+```
+   pip install rexutil
+```
+
+## Installing (git clone):
+```
+git clone https://github.com/bdastur/rex -b master
+```
+
+## Usage:
+```
+   import rex
+```
+
+------
 # Features:<a name="features"></a>
 The module provides the following main abstractions:
 
-## **1. Parsing a LR Value String:**
+## **1. Parsing a LR Value String:**<a name="lrvalue"></a>
 Consider the output of a CLI "show chassis" below from a switch. 
 ```
   chassis : UCS43
@@ -41,7 +65,7 @@ The LRValue parser will parse this output and return a dictionary:
  }
 ```
 
-## **2. Parsing multiple LR Value strings.**
+## **2. Parsing multiple LR Value strings.**<a name="mlrvalue"></a>
 A similar use case is where you have multiple  blocks of LRValue paris.
 Consider the example of a CLI to display adapters.
 ```
@@ -91,7 +115,7 @@ return a list of dictionary object
     'status': 'Unconfigured Good'}]
 ```
 
-## **3. Parsing a tabular format string.**
+## **3. Parsing a tabular format string.**<a name="tabular"></a>
 Very common output format is a tabular format with fields seperated by 
 delimiters (spaces, |, etc).
 
@@ -163,7 +187,7 @@ of dictionary objects as below:
 ```
 
 
-## **4. Common (re) Pattern Abstractions**
+## **4. Common (re) Pattern Abstractions**<a name="pabstractions"></a>
 Another use case where parsing strings is needed is in logs and other program output. 
 Some of the common patterns which can abstract a lot of pain in writing regular expression strings
 are below:
