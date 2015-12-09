@@ -270,7 +270,7 @@ def parse_lrvalue_string(search_string,
     dict['serial_number'] = "FCH1724V1GT"
     '''
     mac_search_pattern = r"(.*) *%s ([\w|\d]+.*)" % delimiter
-    search_pattern = r"(.*) *: *(.*)"
+    search_pattern = r"(.*) *%s *(.*)" % delimiter
 
     rexdict = {}
     for line in search_string.splitlines():
