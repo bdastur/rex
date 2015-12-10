@@ -1,0 +1,12 @@
+------------------------------------
+ Id    Name                           State
+----------------------------------------------------
+ 5     v-salt-003-prod                running
+ 13    v-daow-003-prod                running
+ 15    v-dhcp-003-prod                running
+ 26    v-designate-011-prod.foo.foo.net running
+ 37    v-influx-006-prod              running
+ -     v-cmdb-003-prod                shut off
+ -     v-db01-003-prod                shut off
+ -     v-dns-001-prod                 shut off
+
