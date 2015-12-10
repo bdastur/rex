@@ -319,10 +319,20 @@ def parse_multi_lrvalue_string(search_string, split_string):
     return dictlist
 
 
-def parse_tabular_string(search_string, header_keys):
+def parse_tabular_string(search_string,
+                         header_keys,
+                         delimiter=None,
+                         merge_list=None):
     '''
-    Given a string in a tabular format,
-    parse the string and save it in a dictionary.
+    Given a string in a tabular format, parse it and return a
+    dictionary
+    @args:
+        search_string: This is a string in tabular format (e.g.: output of df
+        command)
+        header_keys: This is a list of strings for the headers.
+        delimiter(optional): Default is None, which translates to spaces
+        merge_list(optional): In some cases 2 fields need to be merged as they
+        are one value.
     '''
     first_line = True
     parsed_results = []
@@ -332,8 +342,18 @@ def parse_tabular_string(search_string, header_keys):
         else:
             result = {}
             row = line.split()
+            if merge_list:
+                for mergeset in merge_list:
+                    fidx = mergeset[0]
+                    lidx = mergeset[1]
+                    try:
+                        row[fidx] = "_".join(row[fidx:(lidx+1)])
+                        row.remove(row[lidx])
+                    except IndexError:
+                        pass
+
             if len(row) != len(header_keys):
-                print "Incorrect fields len"
+                print "Incorrect fields len "
                 continue
             key_count = 0
             for column in row:

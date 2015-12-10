@@ -284,7 +284,7 @@ class REXUT(unittest.TestCase):
                                                      "Physical Drive Number")
         print pprint.PrettyPrinter(indent=2).pprint(parsed_data)
 
-    def test_parser_tabular_string(self):
+    def test_parse_tabular_string(self):
         '''
         Test an output in tabular format.
         '''
@@ -293,6 +293,19 @@ class REXUT(unittest.TestCase):
         fields = ["Filesystem", "1k-blocks", "used",
                   "Available", "usage%", "Mounted_on"]
         parsed_data = rex.parse_tabular_string(data, fields)
+        print pprint.PrettyPrinter(indent=2).pprint(parsed_data)
+
+    def test_parse_tabular_string_2(self):
+        '''
+        Test an output in tabular format. Some fields have spaces.
+        '''
+        fhandle = open("test_data/tabular2_output.txt", "r")
+        data = fhandle.read()
+        fhandle.close()
+        fields = ["Id", "Name", "State"]
+        parsed_data = rex.parse_tabular_string(data,
+                                               fields,
+                                               merge_list=[(2, 3)])
         print pprint.PrettyPrinter(indent=2).pprint(parsed_data)
 
     def test_ipaddr_parse(self):
