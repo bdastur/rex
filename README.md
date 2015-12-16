@@ -1,3 +1,10 @@
+rex
+====
+[![PyPI Version](https://img.shields.io/pypi/v/rexutil.svg)](https://pypi.python.org/pypi/rexutil)
+
+A simple python module which serves as an abstraction to the python
+regular expression (re) module in some use cases.
+
 + [Introduction] (https://github.com/bdastur/rex/blob/master/README.md#introduction)
 + [Getting Started] (https://github.com/bdastur/rex/blob/master/README.md#getting-started)
 + [Features] (https://github.com/bdastur/rex/blob/master/README.md#features)
@@ -6,11 +13,6 @@
   + [Table formatParsing] (https://github.com/bdastur/rex/blob/master/README.md#tabular)
   + [RE Pattern Abstractions] (https://github.com/bdastur/rex/blob/master/README.md#pabstractions)
 
-
-rex
-===
-A simple python module which serves as an abstraction to the python
-regular expression (re) module in some use cases.
 
 ------
 # Introduction:<a name="introduction"></a>
