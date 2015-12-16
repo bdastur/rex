@@ -293,7 +293,8 @@ def parse_lrvalue_string(search_string,
     return rexdict
 
 
-def parse_multi_lrvalue_string(search_string, split_string):
+def parse_multi_lrvalue_string(search_string, split_string,
+                               delimiter=":"):
     '''
     The function is an extension of the parse_lrvalue_string() API.
     The function takes a multi-line output/string of the format
@@ -313,7 +314,8 @@ def parse_multi_lrvalue_string(search_string, split_string):
     '''
     dictlist = []
     for out in search_string.split(split_string):
-        tdict = parse_lrvalue_string(split_string + out)
+        tdict = parse_lrvalue_string(split_string + out,
+                                     delimiter=delimiter)
         dictlist.append(tdict)
 
     return dictlist

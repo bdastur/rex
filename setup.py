@@ -6,7 +6,7 @@ with open('README.md') as fhandle:
 
 setup(
     name='rexutil',
-    version='1.0.2',
+    version='1.0.4',
     description='A python module for regular expression manipulations.',
     long_description=long_description,
     url="https://github.com/bdastur/rex",
