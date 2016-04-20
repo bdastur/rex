@@ -6,18 +6,18 @@ A simple python module which serves as an abstraction to the python
 regular expression (re) module in some use cases.
 
 + [Introduction] (https://github.com/bdastur/rex/blob/master/README.md#introduction)
-+ [Getting Started] (https://github.com/bdastur/rex/blob/master/README.md#getting-started)
 + [Features] (https://github.com/bdastur/rex/blob/master/README.md#features)
+    [RE Pattern Abstractions] (https://github.com/bdastur/rex/blob/master/README.md#pabstractions)
   + [LR Value Parsing] (https://github.com/bdastur/rex/blob/master/README.md#lrvalue)
   + [Multiple LR Value Parsing] (https://github.com/bdastur/rex/blob/master/README.md#mlrvalue)
   + [Table formatParsing] (https://github.com/bdastur/rex/blob/master/README.md#tabular)
-  + [RE Pattern Abstractions] (https://github.com/bdastur/rex/blob/master/README.md#pabstractions)
+  [Getting Started/Installation] (https://github.com/bdastur/rex/blob/master/README.md#getting-started)
 
 
 ------
 # Introduction:<a name="introduction"></a>
 
-The rex module was born out of necessity. It was an attempt to simpliy working with python regular expressions in a couple of different ways.  In the section below 
+The rex module was born out of necessity. It was an attempt to simplify working with python regular expressions in a couple of different ways.  In the section below 
 you can see some of the abstractions and features that it provides to simplify regex manipulations.
 
 ------
@@ -25,7 +25,7 @@ you can see some of the abstractions and features that it provides to simplify r
 
 ## **1. RE Pattern Abstractions**<a name="pabstractions"></a>
 
-It can simplify writing regualar expression patterns by providing some patterns that most commonly show up when parsing data.
+It can simplify writing regular expression patterns by providing some patterns that most commonly show up when parsing data.
 
   Here are some examples to explain what we mean. 
   Consider the below output from a command:
@@ -38,13 +38,15 @@ It can simplify writing regualar expression patterns by providing some patterns 
           like KB, MB or KB/s
 
   ```
-   msmt_str = r"(\d*\.\d+|\d+)(\w+|\w+/\w+)"                                    
    ".*READ: io=(\d*\.\d+|\d+)(\w+|\w+/\w+),.*aggrb=(\d*\.\d+|\d+)(\w+|\w+/\w+),.*" \
    "minb=(\d*\.\d+|\d+)(\w+|\w+/\w+),.*maxb=(\d*\.\d+|\d+)(\w+|\w+/\w+),.*mint=(\d*\.\d+|\d+)(\w+|\w+/\w+),.*maxt=(\d*\.\d+|\d+)(\w+|\w+/\w+).*"              
   ```
 
-  Now let's look at writing the same pattern using REX and then invoking the rex's reformat_pattern() API:
-  I am sure you will agree, the pattern below is much cleaner and clearer. Rex provides various tags, like "measurement" in this 
+  Now let's look at writing the same pattern using REX. I am sure you will agree that the pattern below is much cleaner
+  and clearer than the one above.
+  
+  Rex provides various pattern abstractions, like *"measurement"* as in the case below that you can use to simplify your regex pattern.
+  
   case that you can use to define what kind of pattern you expect and REX will generate the complex re pattern for you. The table
   below shows several of these tags that can be used to simplify your code.
 
@@ -55,9 +57,13 @@ It can simplify writing regualar expression patterns by providing some patterns 
    ```
 
 ### Usage:
+ 
+   Writing a REX pattern will follow the santax (tag:<identifier>), where tag is the pattern abstraction tag provided by REX and the identifier is something
+   that you can specify as an identifier. REX will generate a complex re pattern for you, so you do not have to worry about those nuances.
 
-   Writing a REX pattern will follow the syntax (tag:<name>) --> The tag refers to the REX pattern tag and the name is the identifier you provide. You can then get
-   the vaule of your mobj using mob.group('name'). In the sections below there are usage examples.
+   You can then get the vaule of your mobj using mob.group('identifier'). 
+   
+   Example usage:.
 
    ```
     # Define your pattern
@@ -72,6 +78,7 @@ It can simplify writing regualar expression patterns by providing some patterns 
 
    ```
 
+  **List of REX pattern abstractions:**
 
   | REX Pattern Tags           | Description                                                                                                        |
   | -------------------------- | ------------------------------------------------------------------------------------------------------------------ |
