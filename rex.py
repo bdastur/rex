@@ -58,7 +58,7 @@ class REXResult(object):
         self.named_groups = reobj.groupdict()
 
 
-def reformat_pattern(pattern):
+def reformat_pattern(pattern, compile=False):
     '''
     Apply the filters on user pattern to generate a new regular expression
     pattern.
@@ -85,6 +85,17 @@ def reformat_pattern(pattern):
     # User pattern: (mac:<macaddr>) --> Change to (?P<mac>\w\w:\w\w:\w\w:..)
     rex_pattern = re.sub(r'\(mac:<([\w\d_]+)>\)',
                          '(?P<\\1>\w\w:\w\w:\w\w:\w\w:\w\w:\w\w)', rex_pattern)
+
+    # User pattern: (decimal:<name>) --> Change to (?P<name>\d*\.\d+|\d+)
+    rex_pattern = re.sub(r'\(decimal:<([\w\d_]+)>\)',
+                         '(?P<\\1>\d*\.\d+|\d+)', rex_pattern)
+
+    # User pattern: (measurement:<name> --> change to \
+    # (?P<name>\d*\.\d+|\d+)(\w+|\w+/\w+)
+    rex_pattern = re.sub(r'\(measurement:<([\w\d_]+)>\)',
+                         '(?P<\\1>\d*\.\d+|\d+)(?P<\\1_unit>\w+|\w+/\w+)',
+                         rex_pattern)
+
 
     ######################################
     # Timestamp patterns.
@@ -181,6 +192,9 @@ def reformat_pattern(pattern):
 
     # Finally if no prefix is specified take default action.
     rex_pattern = re.sub(r'\(<([\w\d_]+)>\)', '(?P<\\1>.*)', rex_pattern)
+
+    if compile:
+        return re.compile(rex_pattern)
 
     return rex_pattern
 

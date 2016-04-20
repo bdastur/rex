@@ -35,6 +35,14 @@ class REXUT(unittest.TestCase):
         rexpat = rex.reformat_pattern(test_pattern)
         print("rexpat: ", rexpat)
 
+        test_pattern = "(d:<number>), dec: (decimal:<number>)"
+        rexpat = rex.reformat_pattern(test_pattern)
+        print("rexpat: ", rexpat)
+
+        test_pattern = "(measurement:<heat>), val=(measurement:<energy>)"
+        rexpat = rex.reformat_pattern(test_pattern)
+        print("rexpat: ", rexpat)
+
     def test_match_string(self):
         '''
         test match string.
@@ -88,6 +96,53 @@ class REXUT(unittest.TestCase):
             print "Matched: ", mobj.group(0)
             print "ipaddr: ", mobj.group('ipaddr')
             print "port: ", mobj.group('port')
+
+    def test_match_decimal(self):
+        '''
+        Match a decimal pattern
+        '''
+        teststring = "avg=43.43, 90.43, time=44.290 val=0.43"
+        pattern = "avg=(decimal:<average>), (decimal:<val2>), time=(decimal:<time>) val=(decimal:<val3>)"
+
+        rexpat = rex.reformat_pattern(pattern)
+
+        mobj = re.match(rexpat, teststring)
+        if mobj:
+            print "matched: ", mobj.groups(0)
+            print "avg: ", mobj.group('average')
+
+    def test_match_measurement(self):
+        '''
+        Match a measurement pattern.
+        <vaule>KB, <value>KB/sec
+        '''
+        teststring = "read : io=144KB, bw=98KB/s, iops=741, runt= 10007msec"
+        pattern = "read.*io=(measurement:<io>),.*bw=(measurement:<bw>),.*" \
+            "iops=(d:<iops>),.*runt= (measurement:<runtime>)"
+
+        rexpat = rex.reformat_pattern(pattern)
+        mobj = re.match(rexpat, teststring)
+        if mobj:
+            print "matched: ", mobj.groups(0)
+            print "iops: ", mobj.group('io'), mobj.group('io_unit')
+            print "bw: ", mobj.group('bw'), mobj.group('bw_unit')
+
+    def test_match_measurement_compile(self):
+        '''
+        Match a measurement pattern.
+        <vaule>KB, <value>KB/sec
+        '''
+        teststring = "read : io=144KB, bw=98KB/s, iops=741, runt= 10007msec"
+        pattern = "read.*io=(measurement:<io>),.*bw=(measurement:<bw>),.*" \
+            "iops=(d:<iops>),.*runt= (measurement:<runtime>)"
+
+        rexpat = rex.reformat_pattern(pattern, compile=True)
+        mobj = rexpat.match(teststring)
+        if mobj:
+            print "matched: ", mobj.groups(0)
+            print "iops: ", mobj.group('io'), mobj.group('io_unit')
+            print "bw: ", mobj.group('bw'), mobj.group('bw_unit')
+
 
     def test_match_ipaddr_invalid(self):
         '''
