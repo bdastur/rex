@@ -82,15 +82,15 @@ It can simplify writing regular expression patterns by providing some patterns t
 
   | REX Pattern Tags           | Description                                                                                                        |
   | -------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-  | (w:<identifier>)           | Similar to the re \w - Matches any alphanumeric character                                                          |
-  | (d:<identifier>)           | Similar to the re \d - Matches any range of decimal digits.                                                        |
-  | (W:<identifier>)           | Similar to the re \W - Matches any non alphanumeric character                                                      |
-  | (any:<identifier>)         | Similar to using .* - Match anything.                                                                              |
-  | (ip:<identifier>)          | Match ipv4 ip address string <0-3>:<0-3>:<0-3>:<0-3>                                                               |
-  | (mac:<identifier>)         | Matches a mac address format.                                                                                      |
-  | (decimal:<identifier>)     | Matches a decimal or non decimal number                                                                            |
-  | (measurement:<identifier>) | Matches a number followed by alphanumeric value of kinds (eg: 78KB, 0.90KB/s 9022MB, etc) saves value and units    |
-  | (ts<n>:<identifier>)       | Matches a timestamp type string.                                                                                   |
+  | (w:\<identifier\>)           | Similar to the re \w - Matches any alphanumeric character                                                          |
+  | (d:\<identifier\>)           | Similar to the re \d - Matches any range of decimal digits.                                                        |
+  | (W:\<identifier\>)           | Similar to the re \W - Matches any non alphanumeric character                                                      |
+  | (any:\<identifier\>)         | Similar to using .* - Match anything.                                                                              |
+  | (ip:\<identifier\>)          | Match ipv4 ip address string <0-3>:<0-3>:<0-3>:<0-3>                                                               |
+  | (mac:\<identifier\>)         | Matches a mac address format.                                                                                      |
+  | (decimal:\<identifier\>)     | Matches a decimal or non decimal number                                                                            |
+  | (measurement:\<identifier\>) | Matches a number followed by alphanumeric value of kinds (eg: 78KB, 0.90KB/s 9022MB, etc) saves value and units    |
+  | (ts\<n\>:\<identifier\>)       | Matches a timestamp type string.                                                                                   |
 
 
 
