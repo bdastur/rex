@@ -17,34 +17,80 @@ regular expression (re) module in some use cases.
 ------
 # Introduction:<a name="introduction"></a>
 
-The rex module was born out of necessity. I found myself writing code to parse a lot of command line output for some switches which did not have a good API interface and also in some cases where CLI was the best option to get the data I needed.
-
-In a lot of cases the output format was very similar where I could generalize and try to come up with a common API that can be used for any such CLI. I could not find anything that would fit the bill, and rex was born.
-
-------
-# Getting Started:<a name="getting-started"></a>
-
-
-## Installing using pip:
-```
-   pip install rexutil
-```
-
-## Installing (git clone):
-```
-git clone https://github.com/bdastur/rex -b master
-```
-
-## Usage:
-```
-   import rex
-```
+The rex module was born out of necessity. It was an attempt to simpliy working with python regular expressions in a couple of different ways.  In the section below 
+you can see some of the abstractions and features that it provides to simplify regex manipulations.
 
 ------
 # Features:<a name="features"></a>
-The module provides the following main abstractions:
 
-## **1. Parsing a LR Value String:**<a name="lrvalue"></a>
+## **1. RE Pattern Abstractions**<a name="pabstractions"></a>
+
+It can simplify writing regualar expression patterns by providing some patterns that most commonly show up when parsing data.
+
+  Here are some examples to explain what we mean. 
+  Consider the below output from a command:
+  ```
+  READ: io=950144KB, aggrb=94947KB/s, minb=94947KB/s, maxb=94947KB/s, mint=10007msec, maxt=10007msec
+  ```
+
+  *Without* REX you would write a regexp pattern as below to capture all the data from this string. 
+  > Note: Here the complex regex pattern is to match a decimal/non-decimal number followed by the units
+          like KB, MB or KB/s
+
+  ```
+   msmt_str = r"(\d*\.\d+|\d+)(\w+|\w+/\w+)"                                    
+   ".*READ: io=(\d*\.\d+|\d+)(\w+|\w+/\w+),.*aggrb=(\d*\.\d+|\d+)(\w+|\w+/\w+),.*" \
+   "minb=(\d*\.\d+|\d+)(\w+|\w+/\w+),.*maxb=(\d*\.\d+|\d+)(\w+|\w+/\w+),.*mint=(\d*\.\d+|\d+)(\w+|\w+/\w+),.*maxt=(\d*\.\d+|\d+)(\w+|\w+/\w+).*"              
+  ```
+
+  Now let's look at writing the same pattern using REX and then invoking the rex's reformat_pattern() API:
+  I am sure you will agree, the pattern below is much cleaner and clearer. Rex provides various tags, like "measurement" in this 
+  case that you can use to define what kind of pattern you expect and REX will generate the complex re pattern for you. The table
+  below shows several of these tags that can be used to simplify your code.
+
+   ```
+   ".*READ:.*io=(measurement:<io>),.* aggrb=(measurement:<aggrbw>),.*minb=(measurement:<minavgbw>),.*" \                 
+         "maxb=(measurement:<maxavgbw>),.*mint=(measurement:<minruntime>),.*maxt=(measurement:<maxruntime>)"    
+
+   ```
+
+### Usage:
+
+   Writing a REX pattern will follow the syntax (tag:<name>) --> The tag refers to the REX pattern tag and the name is the identifier you provide. You can then get
+   the vaule of your mobj using mob.group('name'). In the sections below there are usage examples.
+
+   ```
+    # Define your pattern
+    pattern = ".*(ip:<interface_ip>):(d:<port>).*GW:(ip:<gw_ip>).*"
+
+    formatted_pattern = rex.reformat_pattern(pattern, compile=True)
+
+    matchobj = formatted_pattern.match(search_str)
+    if matchobj:
+        print "interface ip: ", matchobj.group('interface_ip')
+        print "port: ", matchobj.group('port')
+
+   ```
+
+
+  | REX Pattern Tags           | Description                                                                                                        |
+  | -------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+  | (w:<identifier>)           | Similar to the re \w - Matches any alphanumeric character                                                          |
+  | (d:<identifier>)           | Similar to the re \d - Matches any range of decimal digits.                                                        |
+  | (W:<identifier>)           | Similar to the re \W - Matches any non alphanumeric character                                                      |
+  | (any:<identifier>)         | Similar to using .* - Match anything.                                                                              |
+  | (ip:<identifier>)          | Match ipv4 ip address string <0-3>:<0-3>:<0-3>:<0-3>                                                               |
+  | (mac:<identifier>)         | Matches a mac address format.                                                                                      |
+  | (decimal:<identifier>)     | Matches a decimal or non decimal number                                                                            |
+  | (measurement:<identifier>) | Matches a number followed by alphanumeric value of kinds (eg: 78KB, 0.90KB/s 9022MB, etc) saves value and units    |
+  | (ts<n>:<identifier>)       | Matches a timestamp type string.                                                                                   |
+
+
+
+## **2. Parsing a LR Value String:**<a name="lrvalue"></a>
+Many switches and even CLI outputs follow a LR value pattern. Eg <field> <delimiter> <vaule>. REX provides an API to parse just output
+and return a dictionary of data that you can use.
+
 Consider the output of a CLI "show chassis" below from a switch. 
 ```
   chassis : UCS43
@@ -67,7 +113,24 @@ The LRValue parser will parse this output and return a dictionary:
  }
 ```
 
-## **2. Parsing multiple LR Value strings.**<a name="mlrvalue"></a>
+### Usage:
+Using this functionaity is as simple as calling a single API.
+This is how we can use the LR value parsing: 
+```
+    import rex
+
+    # Assume your CLI output as above is in a variable called data.
+    data = some_api_to_get_data()
+
+    rex_parsed_data = rex.parse_lrvalue_string(data, delimiter=":")
+
+    print "chassis type: ", rex_parsed_data['chassis']
+    print "serial no: ", rex_parsed_data['serial_no']
+
+```
+
+
+## **3. Parsing multiple LR Value strings.**<a name="mlrvalue"></a>
 A similar use case is where you have multiple  blocks of LRValue paris.
 Consider the example of a CLI to display adapters.
 ```
@@ -117,7 +180,19 @@ return a list of dictionary object
     'status': 'Unconfigured Good'}]
 ```
 
-## **3. Parsing a tabular format string.**<a name="tabular"></a>
+### Usage:
+Similar to the LRValue parsing using this is a simple API call. The
+output is a list of dict objects parsed by rex.
+
+```
+    import rex
+
+    rexparsed_dictlist = rex.parse_multi_lrvalue_string(userdata, "Physical Drive Number", delimiter=":")
+
+```
+
+
+## **4. Parsing a tabular format string.**<a name="tabular"></a>
 Very common output format is a tabular format with fields seperated by 
 delimiters (spaces, |, etc).
 
@@ -189,56 +264,34 @@ of dictionary objects as below:
 ```
 
 
-## **4. Common (re) Pattern Abstractions**<a name="pabstractions"></a>
-Another use case where parsing strings is needed is in logs and other program output. 
-Some of the common patterns which can abstract a lot of pain in writing regular expression strings
-are below:
+### Usage:
+Here's an example of how we can use rex API to parse a tabular format data as above.
 
-### 1. IP Address:
-Here is an example of a log from haproxy:
 ```
-Nov 16 16:35:06 testhost1 haproxy[37217]: 192.16.41.8:45133 [16/Nov/2015:16:32:04.152] mysql mysql/mysql1 1/0/182236 12736 -- 647/261/261/261/0 0/0
-Nov 16 16:35:06 testhost1 haproxy[37217]: 192.16.41.8:45100 [16/Nov/2015:16:32:03.525] mysql mysql/mysql1 1/0/182932 13077 -- 647/261/261/261/0 0/0
-Nov 16 16:35:06 testhost1 haproxy[37217]: 192.16.41.8:45131 [16/Nov/2015:16:32:04.105] mysql mysql/mysql1 1/0/182483 12592 -- 647/261/261/261/0 0/0
-Nov 16 16:35:07 testhost1 haproxy[37217]: 192.16.41.8:45182 [16/Nov/2015:16:32:05.396] mysql mysql/mysql1 1/0/182246 8352 -- 647/261/261/261/0 0/0
-Nov 16 16:35:07 testhost1 haproxy[37217]: 192.16.41.4:55572 [16/Nov/2015:16:32:07.711] mysql mysql/mysql1 1/0/180119 16915 -- 647/261/261/261/0 0/0
+    import rex
+
+    headers = ["Id", "Name", "State"]
+    rex_parsed = rex.parse_tabular_string(data, headers)
 
 ```
 
-Consider we want to parse the log and get all the ip addresses and ports. Here is how we can do that
-using the rex reformat pattern API.
 
-First we define our search pattern:
-```
-# Get the ipaddress and port no from the output.                         
-pattern = ".* (ip:<ipaddr>):(d:<port>).*"
-```
+------
+# Getting Started:<a name="getting-started"></a>
 
-Invoke the rex "reformat_pattern() API.
-```                                              
-rexpat = rex.reformat_pattern(pattern)                                   
-```
 
-Now we can use this as a pattern to search. In this case the re.finditer to iterate
-through all the matches:
-```                                                                          
-for mobj in re.finditer(rexpat, data):                                   
-    print "IP ADDR: %s, PORT: %s" % \                                    
-        (mobj.group(1), mobj.group(2))    
+## Installing using pip:
+```
+   pip install rexutil
+   ```
+
+## Installing (git clone):
+```
+git clone https://github.com/bdastur/rex -b master
 ```
 
-This returns the output:
+## Usage:
 ```
-IP ADDR: 192.16.41.8, PORT: 45133
-IP ADDR: 192.16.41.8, PORT: 45100
-IP ADDR: 192.16.41.8, PORT: 45131
-IP ADDR: 192.16.41.8, PORT: 45182
-IP ADDR: 192.16.41.4, PORT: 55572
-```
-
-### 2. MAC Addresses:
-
-### 3. Timestamps:
-
-
+   import rex
+   ```
 
