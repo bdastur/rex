@@ -369,7 +369,7 @@ def parse_tabular_string(search_string,
                         pass
 
             if len(row) != len(header_keys):
-                print "Incorrect fields len "
+                print("Incorrect fields len ")
                 continue
             key_count = 0
             for column in row:
